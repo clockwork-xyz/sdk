@@ -1,0 +1,12 @@
+{
+  "include": ["src"],
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "module": "es2022",
+    "target": "es2019",
+    "outDir": "dist/",
+    "rootDir": "./src",
+    "declaration": true
+  },
+  "exclude": ["node_modules", "tests"]
+}
