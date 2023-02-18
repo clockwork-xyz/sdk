@@ -2,11 +2,15 @@
   "include": ["src"],
   "compilerOptions": {
     "moduleResolution": "node",
-    "module": "es2022",
-    "target": "es2019",
+    "target": "es2015",
+    "module": "commonjs",
+    "lib": ["es2020"],
     "outDir": "dist/",
     "rootDir": "./src",
-    "declaration": true
+    "declaration": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
   },
   "exclude": ["node_modules", "tests"]
 }

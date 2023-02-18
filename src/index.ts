@@ -1,1 +1,3 @@
-console.log("Hello!");
+import ThreadProvider from "./ThreadProvider";
+
+export { ThreadProvider };
