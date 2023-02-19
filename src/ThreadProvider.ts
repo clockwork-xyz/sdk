@@ -1,15 +1,14 @@
 import * as anchor from "@coral-xyz/anchor";
-import { Connection, PublicKey } from "@solana/web3.js";
+import { Connection, LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
 
 import { ThreadProgram } from "./programs/thread/types";
 import ThreadProgramIdl from "./programs/thread/idl.json";
 import { Thread } from "./accounts";
+import { SerializableInstruction, Trigger, TriggerInput } from "./models";
 
 class ThreadProvider {
   program: anchor.Program<ThreadProgram>;
-
-  constructor(wallet: anchor.Wallet, endpoint: string) {
-    const connection = new Connection(endpoint);
+  constructor(wallet: anchor.Wallet, connection: Connection) {
     const provider = new anchor.AnchorProvider(connection, wallet, {
       commitment: "confirmed",
     });
@@ -28,37 +27,45 @@ class ThreadProvider {
       this.program.programId
     );
   }
-
+  // can also return anchor.IdlAccounts<ThreadProgram>["thread"] but it's not strongly typed
   async getThreadAccount(threadPubkey: PublicKey): Promise<Thread> {
     const threadAccount = await this.program.account.thread.fetch(threadPubkey);
-
-    return {
-      authority: threadAccount.authority,
-      bump: threadAccount.bump,
-      createdAt: {
-        epoch: threadAccount.createdAt.epoch,
-        slot: threadAccount.createdAt.slot,
-        unixTimestamp: threadAccount.createdAt.unixTimestamp,
-      },
-      execContext: threadAccount.execContext
-        ? {
-            execIndex: threadAccount.execContext.execsSinceReimbursement,
-            execsSinceReimbursement:
-              threadAccount.execContext.execsSinceReimbursement,
-            execsSinceSlot: threadAccount.execContext.execsSinceSlot,
-            lastExecAt: threadAccount.execContext.lastExecAt,
-            triggerContext: threadAccount.execContext.triggerContext,
-          }
-        : null,
-      fee: threadAccount.fee,
-      id: threadAccount.id,
-      instructions: threadAccount.instructions,
-      name: threadAccount.name,
-      nextInstruction: threadAccount.nextInstruction,
-      paused: threadAccount.paused,
-      rateLimit: threadAccount.rateLimit,
-    };
+    return threadAccount;
   }
+
+  /**
+   * Creates a new transaction thread.
+   *
+   * @param authority thread authority
+   * @param id thread id
+   * @param amount amount to transfer to the thread in lamports
+   * @param instructions thread instructions
+   * @param trigger thread trigger
+   */
+  async threadCreate(
+    authority: PublicKey,
+    id: Buffer,
+    amount: anchor.BN,
+    instructions: SerializableInstruction[],
+    trigger: TriggerInput
+  ): Promise<string> {
+    const threadPubkey = this.getThreadPDA(authority, id.toString())[0];
+
+    const tx = await this.program.methods
+      .threadCreate(amount, id, instructions, trigger)
+      .accounts({
+        authority: authority,
+        payer: this.program.provider.publicKey,
+        thread: threadPubkey,
+      })
+      .rpc();
+    return tx;
+  }
+
+  async threadDelete() {}
+  async ThreadPause() {}
+  async ThreadResume() {}
+  async ThreadUpdate() {}
 }
 
 export default ThreadProvider;

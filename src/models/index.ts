@@ -2,7 +2,15 @@ import ExecContext from "./ExecContext";
 import TriggerContext from "./TriggerContext";
 import ClockData from "./ClockData";
 import SerializableInstruction from "./SerializableInstruction";
-import Trigger from "./Trigger";
+import {
+  Trigger,
+  TriggerInput,
+  Cron,
+  Account,
+  Now,
+  Epoch,
+  Slot,
+} from "./Trigger";
 
 export {
   ClockData,
@@ -10,4 +18,10 @@ export {
   TriggerContext,
   SerializableInstruction,
   Trigger,
+  TriggerInput,
+  Cron,
+  Account,
+  Now,
+  Epoch,
+  Slot,
 };

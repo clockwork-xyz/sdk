@@ -19,7 +19,7 @@ interface Thread {
   nextInstruction: null | SerializableInstruction;
   paused: boolean;
   rateLimit: BN;
-  trigger?: Trigger;
+  trigger: Trigger;
 }
 
 export default Thread;
