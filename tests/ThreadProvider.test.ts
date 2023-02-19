@@ -7,7 +7,6 @@ import {
   PublicKey,
 } from "@solana/web3.js";
 import { ThreadProvider } from "../src";
-import * as anchor from "@coral-xyz/anchor";
 import { assert } from "chai";
 
 describe("Testing Thread Provider", () => {
@@ -19,7 +18,7 @@ describe("Testing Thread Provider", () => {
   it("Airdrop", async () => {
     const tx = await connection.requestAirdrop(
       wallet.publicKey,
-      0.01 * LAMPORTS_PER_SOL
+      1 * LAMPORTS_PER_SOL
     );
     await new Promise((r) => setTimeout(r, 2000));
     console.log(tx);
@@ -28,8 +27,7 @@ describe("Testing Thread Provider", () => {
   it("Initialize Thread", async () => {
     let tx = await provider.threadCreate(
       wallet.publicKey,
-      Buffer.from("ThreadProviderTest"),
-      new anchor.BN(10),
+      "ThreadProviderTest",
       [],
       { now: {} }
     );
@@ -43,16 +41,20 @@ describe("Testing Thread Provider", () => {
       "ThreadProviderTest"
     );
     threadPubkey = pubkey;
-    await new Promise((r) => setTimeout(r, 20000));
     console.log(threadPubkey.toBase58());
+    await new Promise((r) => setTimeout(r, 10000));
   });
 
   it("Get Thread Account", async () => {
-    await new Promise((r) => setTimeout(r, 10000));
     let threadAccount = await provider.getThreadAccount(threadPubkey);
     assert.equal(
       threadAccount.authority.toBase58(),
       wallet.publicKey.toBase58()
     );
+  });
+
+  it("Delete Thread", async () => {
+    let tx = await provider.threadDelete(wallet.publicKey, threadPubkey);
+    console.log(tx);
   });
 });

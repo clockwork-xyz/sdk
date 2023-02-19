@@ -1,7 +1,7 @@
 import { BN } from "@project-serum/anchor";
 import TriggerContext from "./TriggerContext";
 
-interface ExecContext {
+type ExecContext = {
   /**
    * Index of the next instruction to be executed.
    */
@@ -24,6 +24,6 @@ interface ExecContext {
    * Context for the triggering condition
    */
   triggerContext: TriggerContext;
-}
+};
 
 export default ExecContext;

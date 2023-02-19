@@ -1,14 +1,14 @@
 import { BN } from "@project-serum/anchor";
 
-interface AccountTriggerContext {
+type AccountTriggerContext = {
   dataHash: BN;
-}
+};
 
-interface CronTriggerContext {
+type CronTriggerContext = {
   startedAt: number;
-}
+};
 
-interface ImmediateTriggerContext {}
+type ImmediateTriggerContext = {};
 
 type TriggerContext =
   | AccountTriggerContext
