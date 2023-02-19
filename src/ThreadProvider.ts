@@ -4,7 +4,7 @@ import { Connection, PublicKey, TransactionInstruction } from "@solana/web3.js";
 import { ThreadProgram } from "./programs/thread/types";
 import ThreadProgramIdl from "./programs/thread/idl.json";
 import { Thread } from "./accounts";
-import { SerializableInstruction, TriggerInput } from "./models";
+import { TriggerInput } from "./models";
 import { parseTransactionInstructions } from "./utils";
 
 class ThreadProvider {
@@ -85,7 +85,7 @@ class ThreadProvider {
    * Delete a thread. Returns Transaction Signature.
    *
    * @param authority The authority (owner) of the thread.
-   * @param threadPubkey thread public key to delete.
+   * @param threadPubkey thread to delete.
    * @param closeTo The address to return the data rent lamports to (default payer).
    */
   async threadDelete(
@@ -104,9 +104,56 @@ class ThreadProvider {
     return tx;
   }
 
-  async ThreadPause() {}
-  async ThreadResume() {}
-  async ThreadUpdate() {}
+  /**
+   * Delete a thread. Returns Transaction Signature.
+   *
+   * @param authority The authority (owner) of the thread.
+   * @param threadPubkey thread to pause.
+   */
+  async threadPause(authority: PublicKey, threadPubkey: PublicKey) {
+    const tx = await this.program.methods
+      .threadPause()
+      .accounts({
+        authority: authority,
+        thread: threadPubkey,
+      })
+      .rpc();
+    return tx;
+  }
+
+  /**
+   * Delete a thread. Returns Transaction Signature.
+   *
+   * @param authority The authority (owner) of the thread.
+   * @param threadPubkey thread to resume.
+   */
+  async threadResume(authority: PublicKey, threadPubkey: PublicKey) {
+    const tx = await this.program.methods
+      .threadResume()
+      .accounts({
+        authority: authority,
+        thread: threadPubkey,
+      })
+      .rpc();
+    return tx;
+  }
+
+  /**
+   * Delete a thread. Returns Transaction Signature.
+   *
+   * @param authority The authority (owner) of the thread.
+   * @param threadPubkey thread to reset.
+   */
+  async threadReset(authority: PublicKey, threadPubkey: PublicKey) {
+    const tx = await this.program.methods
+      .threadReset()
+      .accounts({
+        authority: authority,
+        thread: threadPubkey,
+      })
+      .rpc();
+    return tx;
+  }
 }
 
 export default ThreadProvider;

@@ -53,6 +53,21 @@ describe("Testing Thread Provider", () => {
     );
   });
 
+  it("Pause Thread", async () => {
+    let tx = await provider.threadPause(wallet.publicKey, threadPubkey);
+    console.log(tx);
+  });
+
+  it("Resume Thread", async () => {
+    let tx = await provider.threadResume(wallet.publicKey, threadPubkey);
+    console.log(tx);
+  });
+
+  it("Reset Thread", async () => {
+    let tx = await provider.threadReset(wallet.publicKey, threadPubkey);
+    console.log(tx);
+  });
+
   it("Delete Thread", async () => {
     let tx = await provider.threadDelete(wallet.publicKey, threadPubkey);
     console.log(tx);
