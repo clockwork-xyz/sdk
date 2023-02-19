@@ -11,6 +11,7 @@ import {
   Epoch,
   Slot,
 } from "./Trigger";
+import { ThreadSettings, ThreadSettingsInput } from "./ThreadSettings";
 
 export {
   ClockData,
@@ -24,4 +25,6 @@ export {
   Now,
   Epoch,
   Slot,
+  ThreadSettings,
+  ThreadSettingsInput,
 };

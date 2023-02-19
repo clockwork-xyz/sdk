@@ -8,6 +8,8 @@ import {
 } from "@solana/web3.js";
 import { ThreadProvider } from "../src";
 import { assert } from "chai";
+import { ThreadSettings } from "../src/models";
+import { BN } from "@coral-xyz/anchor";
 
 describe("Testing Thread Provider", () => {
   const wallet = new NodeWallet(new Keypair());
@@ -29,7 +31,8 @@ describe("Testing Thread Provider", () => {
       wallet.publicKey,
       "ThreadProviderTest",
       [],
-      { now: {} }
+      { now: {} },
+      0.1 * LAMPORTS_PER_SOL
     );
 
     console.log(tx);
@@ -65,6 +68,26 @@ describe("Testing Thread Provider", () => {
 
   it("Reset Thread", async () => {
     let tx = await provider.threadReset(wallet.publicKey, threadPubkey);
+    console.log(tx);
+  });
+
+  it("Update Thread", async () => {
+    let tx = await provider.threadUpdate(wallet.publicKey, threadPubkey, {
+      fee: null,
+      instructions: null,
+      name: "TestUpdateThread",
+      rateLimit: new BN(32),
+      trigger: { now: {} },
+    });
+    console.log(tx);
+  });
+
+  it("Withdraw Thread", async () => {
+    let tx = await provider.threadWithdraw(
+      wallet.publicKey,
+      threadPubkey,
+      0.01 * LAMPORTS_PER_SOL
+    );
     console.log(tx);
   });
 

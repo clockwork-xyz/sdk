@@ -4,7 +4,7 @@ import { Connection, PublicKey, TransactionInstruction } from "@solana/web3.js";
 import { ThreadProgram } from "./programs/thread/types";
 import ThreadProgramIdl from "./programs/thread/idl.json";
 import { Thread } from "./accounts";
-import { TriggerInput } from "./models";
+import { ThreadSettings, ThreadSettingsInput, TriggerInput } from "./models";
 import { parseTransactionInstructions } from "./utils";
 
 class ThreadProvider {
@@ -105,7 +105,7 @@ class ThreadProvider {
   }
 
   /**
-   * Delete a thread. Returns Transaction Signature.
+   * Pause a thread. Returns Transaction Signature.
    *
    * @param authority The authority (owner) of the thread.
    * @param threadPubkey thread to pause.
@@ -122,7 +122,7 @@ class ThreadProvider {
   }
 
   /**
-   * Delete a thread. Returns Transaction Signature.
+   * Resume a thread. Returns Transaction Signature.
    *
    * @param authority The authority (owner) of the thread.
    * @param threadPubkey thread to resume.
@@ -139,7 +139,7 @@ class ThreadProvider {
   }
 
   /**
-   * Delete a thread. Returns Transaction Signature.
+   * Reset a thread. Returns Transaction Signature.
    *
    * @param authority The authority (owner) of the thread.
    * @param threadPubkey thread to reset.
@@ -147,6 +147,52 @@ class ThreadProvider {
   async threadReset(authority: PublicKey, threadPubkey: PublicKey) {
     const tx = await this.program.methods
       .threadReset()
+      .accounts({
+        authority: authority,
+        thread: threadPubkey,
+      })
+      .rpc();
+    return tx;
+  }
+
+  /**
+   * Withdraw from thread. Returns Transaction Signature.
+   *
+   * @param authority The authority (owner) of the thread.
+   * @param threadPubkey thread to withdraw from.
+   * @param payTo The account to withdraw lamports to (default payer)
+   */
+  async threadWithdraw(
+    authority: PublicKey,
+    threadPubkey: PublicKey,
+    amount: number,
+    payTo: PublicKey = this.program.provider.publicKey
+  ) {
+    const tx = await this.program.methods
+      .threadWithdraw(new anchor.BN(amount))
+      .accounts({
+        authority: authority,
+        thread: threadPubkey,
+        payTo,
+      })
+      .rpc();
+    return tx;
+  }
+
+  /**
+   * Update a thread. Returns Transaction Signature.
+   *
+   * @param authority The authority (owner) of the thread.
+   * @param threadPubkey thread to update.
+   * @param settings new thread settings.
+   */
+  async threadUpdate(
+    authority: PublicKey,
+    threadPubkey: PublicKey,
+    settings: ThreadSettingsInput
+  ) {
+    const tx = await this.program.methods
+      .threadUpdate(settings as ThreadSettings)
       .accounts({
         authority: authority,
         thread: threadPubkey,
