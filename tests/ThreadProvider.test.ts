@@ -8,7 +8,6 @@ import {
 } from "@solana/web3.js";
 import { ThreadProvider } from "../src";
 import { assert } from "chai";
-import { ThreadSettings } from "../src/models";
 import { BN } from "@coral-xyz/anchor";
 
 describe("Testing Thread Provider", () => {
@@ -22,7 +21,7 @@ describe("Testing Thread Provider", () => {
       wallet.publicKey,
       1 * LAMPORTS_PER_SOL
     );
-    await new Promise((r) => setTimeout(r, 2000));
+    await new Promise((r) => setTimeout(r, 10000));
     console.log(tx);
   });
 
@@ -45,7 +44,6 @@ describe("Testing Thread Provider", () => {
     );
     threadPubkey = pubkey;
     console.log(threadPubkey.toBase58());
-    await new Promise((r) => setTimeout(r, 10000));
   });
 
   it("Get Thread Account", async () => {
@@ -73,12 +71,38 @@ describe("Testing Thread Provider", () => {
 
   it("Update Thread", async () => {
     let tx = await provider.threadUpdate(wallet.publicKey, threadPubkey, {
-      fee: null,
-      instructions: null,
       name: "TestUpdateThread",
       rateLimit: new BN(32),
       trigger: { now: {} },
     });
+    console.log(tx);
+  });
+
+  //it("Thread Instruction Add", async () => {
+  //  let transfer_ix = SystemProgram.transfer({
+  //    fromPubkey: wallet.publicKey,
+  //    toPubkey: wallet.publicKey,
+  //    lamports: 1000,
+  //  });
+  //  let tx = await provider.threadInstructionAdd(
+  //    wallet.publicKey,
+  //    threadPubkey,
+  //    transfer_ix
+  //  );
+  //  console.log(tx);
+  //});
+
+  //it("Thread Instruction Remove", async () => {
+  //  let tx = await provider.threadInstructionRemove(
+  //    wallet.publicKey,
+  //    threadPubkey,
+  //    0
+  //  );
+  //  console.log(tx);
+  //});
+
+  it("Get Crate Info", async () => {
+    let tx = await provider.getCrateInfo();
     console.log(tx);
   });
 

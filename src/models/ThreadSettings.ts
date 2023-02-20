@@ -11,10 +11,10 @@ type ThreadSettings = {
 };
 
 type ThreadSettingsInput = {
-  fee?: BN;
+  fee?: number;
   instructions?: SerializableInstruction[];
   name?: string;
-  rateLimit?: BN;
+  rateLimit?: number;
   trigger?: TriggerInput;
 };
 

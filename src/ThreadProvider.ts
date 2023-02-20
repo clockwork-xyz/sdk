@@ -5,7 +5,11 @@ import { ThreadProgram } from "./programs/thread/types";
 import ThreadProgramIdl from "./programs/thread/idl.json";
 import { Thread } from "./accounts";
 import { ThreadSettings, ThreadSettingsInput, TriggerInput } from "./models";
-import { parseTransactionInstructions } from "./utils";
+import {
+  parseThreadSettingsInput,
+  parseTransactionInstruction,
+  parseTransactionInstructions,
+} from "./utils";
 
 class ThreadProvider {
   program: anchor.Program<ThreadProgram>;
@@ -192,12 +196,65 @@ class ThreadProvider {
     settings: ThreadSettingsInput
   ) {
     const tx = await this.program.methods
-      .threadUpdate(settings as ThreadSettings)
+      .threadUpdate(parseThreadSettingsInput(settings))
       .accounts({
         authority: authority,
         thread: threadPubkey,
       })
       .rpc();
+    return tx;
+  }
+
+  /**
+   * Add instruction to a thread. Returns Transaction Signature.
+   *
+   * @param authority The authority (owner) of the thread.
+   * @param threadPubkey thread to add instruction to.
+   * @param instructions instructions to add.
+   */
+  async threadInstructionAdd(
+    authority: PublicKey,
+    threadPubkey: PublicKey,
+    instruction: TransactionInstruction
+  ) {
+    const tx = await this.program.methods
+      .threadInstructionAdd(parseTransactionInstruction(instruction))
+      .accounts({
+        authority: authority,
+        thread: threadPubkey,
+      })
+      .rpc();
+    return tx;
+  }
+
+  /**
+   * Remove an instruction from a thread. Returns Transaction Signature.
+   *
+   * @param authority The authority (owner) of the thread.
+   * @param threadPubkey thread to remove instruction from.
+   * @param index instruction index to be removed.
+   */
+  async threadInstructionRemove(
+    authority: PublicKey,
+    threadPubkey: PublicKey,
+    index: number
+  ) {
+    const tx = await this.program.methods
+      .threadInstructionRemove(new anchor.BN(index))
+      .accounts({
+        authority: authority,
+        thread: threadPubkey,
+      })
+      .rpc();
+    return tx;
+  }
+
+  /**
+   * Get Crate Info. Return Transaction Signature.
+   *
+   */
+  async getCrateInfo() {
+    const tx = await this.program.methods.getCrateInfo().accounts({}).rpc();
     return tx;
   }
 }
