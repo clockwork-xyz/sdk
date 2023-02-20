@@ -108,7 +108,7 @@ describe("Testing Thread Program", () => {
   //    threadPubkey,
   //    0
   //  );
-  //  console.log(tx);
+  //  console.loggjggjtx);
   //});
 
   it("Get Crate Info", async () => {

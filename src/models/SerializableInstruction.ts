@@ -18,4 +18,4 @@ type SerializableInstruction = {
   data: Buffer;
 };
 
-export default SerializableInstruction;
+export { SerializableInstruction, SerializableAccount };

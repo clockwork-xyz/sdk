@@ -1,7 +1,9 @@
 import ExecContext from "./ExecContext";
-import TriggerContext from "./TriggerContext";
 import ClockData from "./ClockData";
-import SerializableInstruction from "./SerializableInstruction";
+import {
+  SerializableInstruction,
+  SerializableAccount,
+} from "./SerializableInstruction";
 import {
   Trigger,
   TriggerInput,
@@ -17,8 +19,8 @@ import CrateInfo from "./CrateInfo";
 export {
   ClockData,
   ExecContext,
-  TriggerContext,
   SerializableInstruction,
+  SerializableAccount,
   Trigger,
   TriggerInput,
   Cron,
