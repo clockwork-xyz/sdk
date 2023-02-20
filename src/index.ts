@@ -1,3 +1,3 @@
-import ThreadProvider from "./ThreadProvider";
+import ClockworkProvider from "./ClockworkProvider";
 
-export { ThreadProvider };
+export { ClockworkProvider };

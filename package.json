@@ -28,7 +28,9 @@
   "scripts": {
     "start": "ts-node src/index.ts",
     "build": "tsc",
-    "test": "mocha --timeout 600000 --reporter spec --require ts-node/register tests/**/*.test.ts"
+    "test": "mocha --timeout 600000 --reporter spec --require ts-node/register tests/**/*.test.ts",
+    "test:thread": "mocha --timeout 600000 --reporter spec --require ts-node/register tests/ThreadProgram.test.ts",
+    "test:network": "mocha --timeout 600000 --reporter spec --require ts-node/register tests/NetworkProgram.test.ts"
   },
   "devDependencies": {
     "@types/chai": "^4.3.4",

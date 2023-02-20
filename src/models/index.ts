@@ -12,6 +12,7 @@ import {
   Slot,
 } from "./Trigger";
 import { ThreadSettings, ThreadSettingsInput } from "./ThreadSettings";
+import CrateInfo from "./CrateInfo";
 
 export {
   ClockData,
@@ -27,4 +28,5 @@ export {
   Slot,
   ThreadSettings,
   ThreadSettingsInput,
+  CrateInfo,
 };

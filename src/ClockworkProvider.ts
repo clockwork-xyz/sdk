@@ -3,27 +3,35 @@ import { Connection, PublicKey, TransactionInstruction } from "@solana/web3.js";
 
 import { ThreadProgram } from "./programs/thread/types";
 import ThreadProgramIdl from "./programs/thread/idl.json";
-import { Thread } from "./accounts";
-import { ThreadSettings, ThreadSettingsInput, TriggerInput } from "./models";
+import { NetworkProgram } from "./programs/network/types";
+import NetworkProgramIdl from "./programs/network/idl.json";
+
+import { Thread, Worker } from "./accounts";
+import { ThreadSettingsInput, TriggerInput } from "./models";
 import {
   parseThreadSettingsInput,
   parseTransactionInstruction,
   parseTransactionInstructions,
 } from "./utils";
 
-class ThreadProvider {
-  program: anchor.Program<ThreadProgram>;
+class ClockworkProvider {
+  threadProgram: anchor.Program<ThreadProgram>;
+  networkProgram: anchor.Program<NetworkProgram>;
+
   constructor(wallet: anchor.Wallet, connection: Connection) {
     const provider = new anchor.AnchorProvider(connection, wallet, {
       commitment: "confirmed",
     });
-    const programId = ThreadProgramIdl.metadata.address;
-    const program = new anchor.Program<ThreadProgram>(
+    this.threadProgram = new anchor.Program<ThreadProgram>(
       ThreadProgramIdl as anchor.Idl as ThreadProgram,
-      programId,
+      ThreadProgramIdl.metadata.address,
       provider
     );
-    this.program = program;
+    this.networkProgram = new anchor.Program<NetworkProgram>(
+      NetworkProgramIdl as anchor.Idl as NetworkProgram,
+      NetworkProgramIdl.metadata.address,
+      provider
+    );
   }
 
   /**
@@ -35,19 +43,44 @@ class ThreadProvider {
   getThreadPDA(authority: PublicKey, id: string): [PublicKey, number] {
     return PublicKey.findProgramAddressSync(
       [Buffer.from("thread"), authority.toBuffer(), Buffer.from(id)],
-      this.program.programId
+      this.threadProgram.programId
     );
   }
 
-  // can also return anchor.IdlAccounts<ThreadProgram>["thread"] but it's not strongly typed
+  /**
+   * Get Worker PDA. Returns the public key and bump.
+   *
+   * @param id worker id
+   */
+  getWorkerPDA(id: string): [PublicKey, number] {
+    return PublicKey.findProgramAddressSync(
+      [Buffer.from("worker"), new anchor.BN(id).toArrayLike(Buffer, "be", 8)],
+      this.networkProgram.programId
+    );
+  }
+
   /**
    * Get Thread Account Data Deserialized.
    *
    * @param threadPubkey thread public key
    */
   async getThreadAccount(threadPubkey: PublicKey): Promise<Thread> {
-    const threadAccount = await this.program.account.thread.fetch(threadPubkey);
+    const threadAccount = await this.threadProgram.account.thread.fetch(
+      threadPubkey
+    );
     return threadAccount;
+  }
+
+  /**
+   * Get Worker Account Data Deserialized.
+   *
+   * @param workerPubkey worker public key
+   */
+  async getWorkerAccount(workerPubkey: PublicKey): Promise<Worker> {
+    const workerAccount = await this.networkProgram.account.worker.fetch(
+      workerPubkey
+    );
+    return workerAccount;
   }
 
   /**
@@ -68,7 +101,7 @@ class ThreadProvider {
   ): Promise<string> {
     const threadPubkey = this.getThreadPDA(authority, id.toString())[0];
 
-    const tx = await this.program.methods
+    const tx = await this.threadProgram.methods
       .threadCreate(
         new anchor.BN(amount),
         Buffer.from(id),
@@ -95,9 +128,9 @@ class ThreadProvider {
   async threadDelete(
     authority: PublicKey,
     threadPubkey: PublicKey,
-    closeTo: PublicKey = this.program.provider.publicKey
+    closeTo: PublicKey = this.threadProgram.provider.publicKey
   ): Promise<string> {
-    const tx = await this.program.methods
+    const tx = await this.threadProgram.methods
       .threadDelete()
       .accounts({
         authority: authority,
@@ -114,8 +147,11 @@ class ThreadProvider {
    * @param authority The authority (owner) of the thread.
    * @param threadPubkey thread to pause.
    */
-  async threadPause(authority: PublicKey, threadPubkey: PublicKey) {
-    const tx = await this.program.methods
+  async threadPause(
+    authority: PublicKey,
+    threadPubkey: PublicKey
+  ): Promise<string> {
+    const tx = await this.threadProgram.methods
       .threadPause()
       .accounts({
         authority: authority,
@@ -131,8 +167,11 @@ class ThreadProvider {
    * @param authority The authority (owner) of the thread.
    * @param threadPubkey thread to resume.
    */
-  async threadResume(authority: PublicKey, threadPubkey: PublicKey) {
-    const tx = await this.program.methods
+  async threadResume(
+    authority: PublicKey,
+    threadPubkey: PublicKey
+  ): Promise<string> {
+    const tx = await this.threadProgram.methods
       .threadResume()
       .accounts({
         authority: authority,
@@ -149,7 +188,7 @@ class ThreadProvider {
    * @param threadPubkey thread to reset.
    */
   async threadReset(authority: PublicKey, threadPubkey: PublicKey) {
-    const tx = await this.program.methods
+    const tx = await this.threadProgram.methods
       .threadReset()
       .accounts({
         authority: authority,
@@ -170,9 +209,9 @@ class ThreadProvider {
     authority: PublicKey,
     threadPubkey: PublicKey,
     amount: number,
-    payTo: PublicKey = this.program.provider.publicKey
-  ) {
-    const tx = await this.program.methods
+    payTo: PublicKey = this.threadProgram.provider.publicKey
+  ): Promise<string> {
+    const tx = await this.threadProgram.methods
       .threadWithdraw(new anchor.BN(amount))
       .accounts({
         authority: authority,
@@ -194,8 +233,8 @@ class ThreadProvider {
     authority: PublicKey,
     threadPubkey: PublicKey,
     settings: ThreadSettingsInput
-  ) {
-    const tx = await this.program.methods
+  ): Promise<string> {
+    const tx = await this.threadProgram.methods
       .threadUpdate(parseThreadSettingsInput(settings))
       .accounts({
         authority: authority,
@@ -216,8 +255,8 @@ class ThreadProvider {
     authority: PublicKey,
     threadPubkey: PublicKey,
     instruction: TransactionInstruction
-  ) {
-    const tx = await this.program.methods
+  ): Promise<string> {
+    const tx = await this.threadProgram.methods
       .threadInstructionAdd(parseTransactionInstruction(instruction))
       .accounts({
         authority: authority,
@@ -238,8 +277,8 @@ class ThreadProvider {
     authority: PublicKey,
     threadPubkey: PublicKey,
     index: number
-  ) {
-    const tx = await this.program.methods
+  ): Promise<string> {
+    const tx = await this.threadProgram.methods
       .threadInstructionRemove(new anchor.BN(index))
       .accounts({
         authority: authority,
@@ -249,14 +288,15 @@ class ThreadProvider {
     return tx;
   }
 
+  // TODO: Return CrateInfo rather than tx.
   /**
-   * Get Crate Info. Return Transaction Signature.
+   * Get Crate Info.
    *
    */
-  async getCrateInfo() {
-    const tx = await this.program.methods.getCrateInfo().accounts({}).rpc();
+  async getCrateInfo(): Promise<string> {
+    let tx = await this.threadProgram.methods.getCrateInfo().accounts({}).rpc();
     return tx;
   }
 }
 
-export default ThreadProvider;
+export default ClockworkProvider;

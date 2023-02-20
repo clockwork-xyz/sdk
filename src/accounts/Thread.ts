@@ -7,7 +7,7 @@ import {
   Trigger,
 } from "../models";
 
-interface Thread {
+type Thread = {
   authority: PublicKey;
   bump: number;
   createdAt: ClockData;
@@ -20,6 +20,6 @@ interface Thread {
   paused: boolean;
   rateLimit: BN;
   trigger: Trigger;
-}
+};
 
 export default Thread;

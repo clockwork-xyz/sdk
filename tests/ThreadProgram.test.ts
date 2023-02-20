@@ -6,14 +6,14 @@ import {
   LAMPORTS_PER_SOL,
   PublicKey,
 } from "@solana/web3.js";
-import { ThreadProvider } from "../src";
+import { ClockworkProvider } from "../src";
 import { assert } from "chai";
 import { BN } from "@coral-xyz/anchor";
 
-describe("Testing Thread Provider", () => {
+describe("Testing Thread Program", () => {
   const wallet = new NodeWallet(new Keypair());
   const connection = new Connection(clusterApiUrl("devnet"));
-  const provider = new ThreadProvider(wallet, connection);
+  const provider = new ClockworkProvider(wallet, connection);
   let threadPubkey: PublicKey;
 
   it("Airdrop", async () => {
@@ -21,14 +21,14 @@ describe("Testing Thread Provider", () => {
       wallet.publicKey,
       1 * LAMPORTS_PER_SOL
     );
-    await new Promise((r) => setTimeout(r, 10000));
+    await new Promise((r) => setTimeout(r, 5000));
     console.log(tx);
   });
 
   it("Initialize Thread", async () => {
     let tx = await provider.threadCreate(
       wallet.publicKey,
-      "ThreadProviderTest",
+      "ThreadProgramTest",
       [],
       { now: {} },
       0.1 * LAMPORTS_PER_SOL
@@ -40,18 +40,28 @@ describe("Testing Thread Provider", () => {
   it("Get Thread Address", async () => {
     let [pubkey, _] = provider.getThreadPDA(
       wallet.publicKey,
-      "ThreadProviderTest"
+      "ThreadProgramTest"
     );
     threadPubkey = pubkey;
     console.log(threadPubkey.toBase58());
   });
 
   it("Get Thread Account", async () => {
-    let threadAccount = await provider.getThreadAccount(threadPubkey);
-    assert.equal(
-      threadAccount.authority.toBase58(),
-      wallet.publicKey.toBase58()
-    );
+    let i = 1;
+    while (true) {
+      try {
+        let threadAccount = await provider.getThreadAccount(threadPubkey);
+        assert.equal(threadAccount.id.toString(), "ThreadProgramTest");
+        break;
+      } catch (e) {
+        console.log(
+          "retrying in " + i + " seconds... max retries [" + i + "/10]"
+        );
+        if (i == 10) throw e;
+        await new Promise((r) => setTimeout(r, i * 1000));
+        i += 1;
+      }
+    }
   });
 
   it("Pause Thread", async () => {
