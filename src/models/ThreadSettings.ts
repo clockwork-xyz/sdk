@@ -1,5 +1,5 @@
 import { BN } from "@coral-xyz/anchor";
-import SerializableInstruction from "./SerializableInstruction";
+import { SerializableInstruction } from "./SerializableInstruction";
 import { TriggerInput } from "./Trigger";
 
 type ThreadSettings = {

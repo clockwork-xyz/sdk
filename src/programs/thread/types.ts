@@ -472,7 +472,7 @@ export type ThreadProgram = {
               {
                 name: "skippable";
                 docs: [
-                  "Boolean value indicating whether triggering moments may be skipped if they are missed (e.g. due to network downtime) If false, any 'missed' triggering moments will simply be executed as soon as the network comes back online."
+                  "Boolean value indicating whether triggering moments may be skipped if they are missed (e.g. due to network downtime) If false, any missed triggering moments will simply be executed as soon as the network comes back online."
                 ];
                 type: "bool";
               }
@@ -1249,7 +1249,9 @@ export const IDL: ThreadProgram = {
               },
               {
                 name: "skippable",
-                docs: "Boolean value indicating whether triggering moments may be skipped if they are missed (e.g. due to network downtime) If false, any 'missed' triggering moments will simply be executed as soon as the network comes back online.",
+                docs: [
+                  "Boolean value indicating whether triggering moments may be skipped if they are missed (e.g. due to network downtime) If false, any missed triggering moments will simply be executed as soon as the network comes back online.",
+                ],
                 type: "bool",
               },
             ],
