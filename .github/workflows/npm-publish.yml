@@ -1,11 +1,10 @@
 name: Publish Package to npmjs
-on:
-  release:
-    types: [created]
+on: [push]
 jobs:
   publish:
     name: Publish JS/TS SDK
     runs-on: ubuntu-20.04
+    if: github.event_name == 'push' && ( github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' )
     steps:
       - name: Checkout
         uses: actions/checkout@v3
