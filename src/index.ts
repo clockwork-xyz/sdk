@@ -15,6 +15,7 @@ import {
   ThreadSettings,
   ThreadSettingsInput,
   CrateInfo,
+  TriggerContext,
 } from "./models";
 
 import { ThreadProgram } from "./programs/thread/types";
@@ -53,4 +54,5 @@ export {
   ThreadSettings,
   ThreadSettingsInput,
   CrateInfo,
+  TriggerContext,
 };

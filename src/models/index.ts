@@ -15,6 +15,7 @@ import {
 } from "./Trigger";
 import { ThreadSettings, ThreadSettingsInput } from "./ThreadSettings";
 import CrateInfo from "./CrateInfo";
+import TriggerContext from "./TriggerContext";
 
 export {
   ClockData,
@@ -31,4 +32,5 @@ export {
   ThreadSettings,
   ThreadSettingsInput,
   CrateInfo,
+  TriggerContext,
 };
