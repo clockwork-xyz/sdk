@@ -1,5 +1,6 @@
 import ClockworkProvider from "./ClockworkProvider";
 import { Worker, Thread } from "./accounts";
+import { PAYER_PUBKEY } from "./constants";
 import {
   ClockData,
   ExecContext,
@@ -33,6 +34,7 @@ export {
   ClockworkProvider,
   Worker,
   Thread,
+  PAYER_PUBKEY,
   ThreadProgram,
   ThreadProgramIdl,
   NetworkProgram,
