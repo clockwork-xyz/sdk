@@ -16,7 +16,9 @@ jobs:
         with:
           node-version: '16.x'
           registry-url: https://registry.npmjs.org/
-      - name: Build
+      - name: Install Dependencies
+        run: npm install
+      - name: Build Library
         run: npm run build
       - name: Publish
         run: npm publish --access public
