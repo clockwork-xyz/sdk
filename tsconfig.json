@@ -5,7 +5,7 @@
     "target": "es2015",
     "module": "commonjs",
     "lib": ["es2020"],
-    "outDir": "dist/",
+    "outDir": "lib/",
     "rootDir": "./src",
     "declaration": true,
     "resolveJsonModule": true,
