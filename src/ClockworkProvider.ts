@@ -1,5 +1,10 @@
 import * as anchor from "@coral-xyz/anchor";
-import { Connection, PublicKey, TransactionInstruction } from "@solana/web3.js";
+import { 
+  ConfirmOptions,
+  Connection,
+  PublicKey,
+  TransactionInstruction
+} from "@solana/web3.js";
 
 import { ThreadProgram } from "./programs/thread/types";
 import ThreadProgramIdl from "./programs/thread/idl.json";
@@ -18,10 +23,12 @@ class ClockworkProvider {
   threadProgram: anchor.Program<ThreadProgram>;
   networkProgram: anchor.Program<NetworkProgram>;
 
-  constructor(wallet: anchor.Wallet, connection: Connection) {
-    const provider = new anchor.AnchorProvider(connection, wallet, {
-      commitment: "confirmed",
-    });
+  constructor(
+    wallet: anchor.Wallet,
+    connection: Connection,
+    opts: ConfirmOptions = anchor.AnchorProvider.defaultOptions()
+  ) {
+    const provider = new anchor.AnchorProvider(connection, wallet, opts);
     this.threadProgram = new anchor.Program<ThreadProgram>(
       ThreadProgramIdl as anchor.Idl as ThreadProgram,
       ThreadProgramIdl.metadata.address,
