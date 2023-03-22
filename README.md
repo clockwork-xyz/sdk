@@ -29,6 +29,14 @@ First, initialize a `ClockworkProvider`
 const wallet = new NodeWallet(new Keypair());
 const connection = new Connection(clusterApiUrl("devnet"));
 const provider = new ClockworkProvider(wallet, connection);
+
+#or
+const anchorProvider = new anchor.AnchorProvider(
+        connection,
+        wallet,
+        anchor.AnchorProvider.defaultOptions()
+);
+const provider = new ClockworkProvider.fromAnchorProvider(provider);
 ```
 
 Get Thread Address
