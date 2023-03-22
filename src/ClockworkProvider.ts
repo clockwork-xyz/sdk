@@ -3,6 +3,7 @@ import {
   ConfirmOptions,
   Connection,
   PublicKey,
+  Transaction,
   TransactionInstruction
 } from "@solana/web3.js";
 
@@ -19,12 +20,21 @@ import {
   parseTransactionInstructions,
 } from "./utils";
 
+/**
+ * Wallet interface for objects that can be used to sign provider transactions.
+ */
+export interface ClockworkProviderWallet {
+  signTransaction(tx: Transaction): Promise<Transaction>;
+  signAllTransactions(txs: Transaction[]): Promise<Transaction[]>;
+  publicKey: PublicKey;
+}
+
 class ClockworkProvider {
   threadProgram: anchor.Program<ThreadProgram>;
   networkProgram: anchor.Program<NetworkProgram>;
 
   constructor(
-    wallet: anchor.Wallet,
+    wallet: ClockworkProviderWallet,
     connection: Connection,
     opts: ConfirmOptions = anchor.AnchorProvider.defaultOptions()
   ) {
@@ -39,6 +49,20 @@ class ClockworkProvider {
       NetworkProgramIdl.metadata.address,
       provider
     );
+  }
+ 
+  /**
+   * Build a ClockworkProvider from an AnchorProvider
+   *
+   * @param authority thread authority
+   */
+  static fromAnchorProvider(provider: anchor.AnchorProvider): ClockworkProvider {
+    const clockworkProvider = new ClockworkProvider(
+      provider.wallet,
+      provider.connection,
+      provider.opts
+    );
+    return clockworkProvider;
   }
 
   /**

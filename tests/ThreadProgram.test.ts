@@ -8,12 +8,13 @@ import {
 } from "@solana/web3.js";
 import { ClockworkProvider } from "../src";
 import { assert } from "chai";
-import { BN } from "@coral-xyz/anchor";
+import { BN, AnchorProvider} from "@coral-xyz/anchor";
 
 describe("Testing Thread Program", () => {
   const wallet = new NodeWallet(new Keypair());
   const connection = new Connection(clusterApiUrl("devnet"));
-  const provider = new ClockworkProvider(wallet, connection);
+  const anchorProvider = new AnchorProvider(connection, wallet, AnchorProvider.defaultOptions());
+  const provider = ClockworkProvider.fromAnchorProvider(anchorProvider);
   let threadPubkey: PublicKey;
 
   it("Airdrop", async () => {
