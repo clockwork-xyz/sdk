@@ -5,7 +5,6 @@ import {
   PublicKey,
   Transaction,
   TransactionInstruction,
-  TransactionSignature,
 } from "@solana/web3.js";
 
 import { ThreadProgram } from "./programs/thread/types";
