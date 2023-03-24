@@ -1,5 +1,5 @@
 import ClockworkProvider from "./ClockworkProvider";
-import { Worker, Thread } from "./accounts";
+import { Thread } from "./accounts";
 import { PAYER_PUBKEY } from "./constants";
 import {
   ClockData,
@@ -21,8 +21,6 @@ import {
 
 import { ThreadProgram } from "./programs/thread/types";
 import ThreadProgramIdl from "./programs/thread/idl.json";
-import { NetworkProgram } from "./programs/network/types";
-import NetworkProgramIdl from "./programs/network/idl.json";
 
 import {
   parseThreadSettingsInput,
@@ -32,13 +30,10 @@ import {
 
 export {
   ClockworkProvider,
-  Worker,
   Thread,
   PAYER_PUBKEY,
   ThreadProgram,
   ThreadProgramIdl,
-  NetworkProgram,
-  NetworkProgramIdl,
   parseThreadSettingsInput,
   parseTransactionInstruction,
   parseTransactionInstructions,
