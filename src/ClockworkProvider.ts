@@ -129,10 +129,9 @@ class ClockworkProvider {
     instructions: TransactionInstruction[],
     trigger: TriggerInput,
     amount: number = 0
-  ): Promise<string> {
+  ): Promise<TransactionInstruction> {
     const threadPubkey = this.getThreadPDA(authority, id.toString())[0];
-
-    const tx = await this.threadProgram.methods
+    return await this.threadProgram.methods
       .threadCreate(
         new anchor.BN(amount),
         Buffer.from(id),
@@ -144,9 +143,7 @@ class ClockworkProvider {
         authority: authority,
         thread: threadPubkey,
       })
-      .rpc();
-
-    return tx;
+      .instruction();
   }
 
   /**
@@ -160,16 +157,15 @@ class ClockworkProvider {
     authority: PublicKey,
     threadPubkey: PublicKey,
     closeTo: PublicKey = this.threadProgram.provider.publicKey
-  ): Promise<string> {
-    const tx = await this.threadProgram.methods
+  ): Promise<TransactionInstruction> {
+    return await this.threadProgram.methods
       .threadDelete()
       .accounts({
         authority: authority,
         thread: threadPubkey,
         closeTo,
       })
-      .rpc();
-    return tx;
+      .instruction();
   }
 
   /**
@@ -181,15 +177,14 @@ class ClockworkProvider {
   async threadPause(
     authority: PublicKey,
     threadPubkey: PublicKey
-  ): Promise<string> {
-    const tx = await this.threadProgram.methods
+  ): Promise<TransactionInstruction> {
+    return await this.threadProgram.methods
       .threadPause()
       .accounts({
         authority: authority,
         thread: threadPubkey,
       })
-      .rpc();
-    return tx;
+      .instruction();
   }
 
   /**
@@ -201,15 +196,14 @@ class ClockworkProvider {
   async threadResume(
     authority: PublicKey,
     threadPubkey: PublicKey
-  ): Promise<string> {
-    const tx = await this.threadProgram.methods
+  ): Promise<TransactionInstruction> {
+    return await this.threadProgram.methods
       .threadResume()
       .accounts({
         authority: authority,
         thread: threadPubkey,
       })
-      .rpc();
-    return tx;
+      .instruction();
   }
 
   /**
@@ -218,15 +212,14 @@ class ClockworkProvider {
    * @param authority The authority (owner) of the thread.
    * @param threadPubkey thread to reset.
    */
-  async threadReset(authority: PublicKey, threadPubkey: PublicKey) {
-    const tx = await this.threadProgram.methods
+  async threadReset(authority: PublicKey, threadPubkey: PublicKey): Promise<TransactionInstruction> {
+    return await this.threadProgram.methods
       .threadReset()
       .accounts({
         authority: authority,
         thread: threadPubkey,
       })
-      .rpc();
-    return tx;
+      .instruction();
   }
 
   /**
@@ -241,16 +234,15 @@ class ClockworkProvider {
     threadPubkey: PublicKey,
     amount: number,
     payTo: PublicKey = this.threadProgram.provider.publicKey
-  ): Promise<string> {
-    const tx = await this.threadProgram.methods
+  ): Promise<TransactionInstruction> {
+    return await this.threadProgram.methods
       .threadWithdraw(new anchor.BN(amount))
       .accounts({
         authority: authority,
         thread: threadPubkey,
         payTo,
       })
-      .rpc();
-    return tx;
+      .instruction();
   }
 
   /**
@@ -264,15 +256,14 @@ class ClockworkProvider {
     authority: PublicKey,
     threadPubkey: PublicKey,
     settings: ThreadSettingsInput
-  ): Promise<string> {
-    const tx = await this.threadProgram.methods
+  ): Promise<TransactionInstruction> {
+    return await this.threadProgram.methods
       .threadUpdate(parseThreadSettingsInput(settings))
       .accounts({
         authority: authority,
         thread: threadPubkey,
       })
-      .rpc();
-    return tx;
+      .instruction();
   }
 
   /**
@@ -286,15 +277,14 @@ class ClockworkProvider {
     authority: PublicKey,
     threadPubkey: PublicKey,
     instruction: TransactionInstruction
-  ): Promise<string> {
-    const tx = await this.threadProgram.methods
+  ): Promise<TransactionInstruction> {
+    return await this.threadProgram.methods
       .threadInstructionAdd(parseTransactionInstruction(instruction))
       .accounts({
         authority: authority,
         thread: threadPubkey,
       })
-      .rpc();
-    return tx;
+      .instruction();
   }
 
   /**
@@ -308,15 +298,14 @@ class ClockworkProvider {
     authority: PublicKey,
     threadPubkey: PublicKey,
     index: number
-  ): Promise<string> {
-    const tx = await this.threadProgram.methods
+  ): Promise<TransactionInstruction> {
+    return await this.threadProgram.methods
       .threadInstructionRemove(new anchor.BN(index))
       .accounts({
         authority: authority,
         thread: threadPubkey,
       })
-      .rpc();
-    return tx;
+      .instruction();
   }
 
   // TODO: Return CrateInfo rather than tx.
@@ -324,9 +313,8 @@ class ClockworkProvider {
    * Get Crate Info.
    *
    */
-  async getCrateInfo(): Promise<string> {
-    let tx = await this.threadProgram.methods.getCrateInfo().accounts({}).rpc();
-    return tx;
+  async getCrateInfo(): Promise<TransactionInstruction> {
+    return await this.threadProgram.methods.getCrateInfo().accounts({}).instruction();
   }
 }
 
