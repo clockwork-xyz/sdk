@@ -28,7 +28,7 @@ First, initialize a `ClockworkProvider`
 ```rust
 const wallet = new NodeWallet(new Keypair());
 const connection = new Connection(clusterApiUrl("devnet"));
-const provider = new ClockworkProvider(wallet, connection);
+const clockworkProvider = new ClockworkProvider(wallet, connection);
 
 #or
 const anchorProvider = new anchor.AnchorProvider(
@@ -42,7 +42,7 @@ const provider = new ClockworkProvider.fromAnchorProvider(provider);
 Get Thread Address
 
 ```rust
-let [pubkey, bump] = provider.getThreadPDA(
+const [pubkey, bump] = provider.getThreadPDA(
       wallet.publicKey,
       "ThreadProgramTest"
 );
@@ -51,66 +51,52 @@ let [pubkey, bump] = provider.getThreadPDA(
 Initialize a Thread
 
 ```rust
-let tx = await provider.threadCreate(
+const ix = await provider.threadCreate(
       wallet.publicKey,         // authority
       "ThreadProgramTest",      // id
       [],                       // instructions to execute
       { now: {} },              // thread trigger
       0.1 * LAMPORTS_PER_SOL    // amount to send to the thread
 );
+const tx = new Transaction().add(ix);
+const signature = await provider.anchorProvider.sendAndConfirm(tx);
 ```
 
 Get Thread Data Deserialized
 
 ```rust
-let threadAccount = await provider.getThreadAccount(threadPubkey);
+const threadAccount = await provider.getThreadAccount(threadPubkey);
 ```
 
 Pause/Resume/Reset/Delete/ Thread
 
 ```rust
-let tx = await provider.threadPause(wallet.publicKey, threadPubkey);
-let tx = await provider.threadResume(wallet.publicKey, threadPubkey);
-let tx = await provider.threadReset(wallet.publicKey, threadPubkey);
-let tx = await provider.threadDelete(wallet.publicKey, threadPubkey);
+const ix = await provider.threadPause(wallet.publicKey, threadPubkey);
+const ix = await provider.threadResume(wallet.publicKey, threadPubkey);
+const ix = await provider.threadReset(wallet.publicKey, threadPubkey);
+const ix = await provider.threadDelete(wallet.publicKey, threadPubkey);
 ```
 
 Update a Thread
 
 ```rust
-let tx = await provider.threadUpdate(wallet.publicKey, threadPubkey, {
+const ix = await provider.threadUpdate(wallet.publicKey, threadPubkey, {
       name: "TestUpdateThread",
       rateLimit: new BN(32),
       trigger: { now: {} },
 });
+const tx = new Transaction().add(ix);
+const signature = await provider.anchorProvider.sendAndConfirm(tx);
 ```
 
 Withdraw from Thread
 
 ```rust
-let tx = await provider.threadWithdraw(
+const ix = await provider.threadWithdraw(
       wallet.publicKey,
       threadPubkey,
       0.01 * LAMPORTS_PER_SOL
 );
+const tx = new Transaction().add(ix);
+const signature = await provider.anchorProvider.sendAndConfirm(tx);
 ```
-
-Get Crate Info
-
-```rust
-let tx = await provider.getCrateInfo();
-```
-
-Get Worker Address
-
-```rust
-let [pubkey, bump] = provider.getWorkerPDA("8");
-```
-
-Get Worker Account
-
-```rust
-let workerAccount = await provider.getWorkerAccount(workerPubkey);
-```
-
-
