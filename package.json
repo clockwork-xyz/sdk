@@ -29,8 +29,7 @@
     "start": "ts-node src/index.ts",
     "build": "tsc",
     "test": "mocha --timeout 600000 --reporter spec --require ts-node/register tests/**/*.test.ts",
-    "test:thread": "mocha --timeout 600000 --reporter spec --require ts-node/register tests/ThreadProgram.test.ts",
-    "test:network": "mocha --timeout 600000 --reporter spec --require ts-node/register tests/NetworkProgram.test.ts"
+    "test:thread": "mocha --timeout 600000 --reporter spec --require ts-node/register tests/ThreadProgram.test.ts"
   },
   "devDependencies": {
     "@types/chai": "^4.3.4",
@@ -44,7 +43,6 @@
   },
   "dependencies": {
     "@coral-xyz/anchor": "^0.26.0",
-    "@project-serum/anchor": "^0.26.0",
     "@solana/web3.js": "^1.73.2"
   }
 }

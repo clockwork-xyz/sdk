@@ -4,15 +4,14 @@ import {
   Connection,
   PublicKey,
   Transaction,
-  TransactionInstruction
+  TransactionInstruction,
+  TransactionSignature,
 } from "@solana/web3.js";
 
 import { ThreadProgram } from "./programs/thread/types";
 import ThreadProgramIdl from "./programs/thread/idl.json";
-import { NetworkProgram } from "./programs/network/types";
-import NetworkProgramIdl from "./programs/network/idl.json";
 
-import { Thread, Worker } from "./accounts";
+import { Thread } from "./accounts";
 import { ThreadSettingsInput, TriggerInput } from "./models";
 import {
   parseThreadSettingsInput,
@@ -31,23 +30,18 @@ export interface ClockworkProviderWallet {
 
 class ClockworkProvider {
   threadProgram: anchor.Program<ThreadProgram>;
-  networkProgram: anchor.Program<NetworkProgram>;
+  anchorProvider: anchor.AnchorProvider;
 
   constructor(
     wallet: ClockworkProviderWallet,
     connection: Connection,
     opts: ConfirmOptions = anchor.AnchorProvider.defaultOptions()
   ) {
-    const provider = new anchor.AnchorProvider(connection, wallet, opts);
+    this.anchorProvider = new anchor.AnchorProvider(connection, wallet, opts);
     this.threadProgram = new anchor.Program<ThreadProgram>(
       ThreadProgramIdl as anchor.Idl as ThreadProgram,
       ThreadProgramIdl.metadata.address,
-      provider
-    );
-    this.networkProgram = new anchor.Program<NetworkProgram>(
-      NetworkProgramIdl as anchor.Idl as NetworkProgram,
-      NetworkProgramIdl.metadata.address,
-      provider
+      this.anchorProvider
     );
   }
  
@@ -79,18 +73,6 @@ class ClockworkProvider {
   }
 
   /**
-   * Get Worker PDA. Returns the public key and bump.
-   *
-   * @param id worker id
-   */
-  getWorkerPDA(id: string): [PublicKey, number] {
-    return PublicKey.findProgramAddressSync(
-      [Buffer.from("worker"), new anchor.BN(id).toArrayLike(Buffer, "be", 8)],
-      this.networkProgram.programId
-    );
-  }
-
-  /**
    * Get Thread Account Data Deserialized.
    *
    * @param threadPubkey thread public key
@@ -100,18 +82,6 @@ class ClockworkProvider {
       threadPubkey
     );
     return threadAccount;
-  }
-
-  /**
-   * Get Worker Account Data Deserialized.
-   *
-   * @param workerPubkey worker public key
-   */
-  async getWorkerAccount(workerPubkey: PublicKey): Promise<Worker> {
-    const workerAccount = await this.networkProgram.account.worker.fetch(
-      workerPubkey
-    );
-    return workerAccount;
   }
 
   /**

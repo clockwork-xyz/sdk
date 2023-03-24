@@ -5,10 +5,13 @@ import {
   Keypair,
   LAMPORTS_PER_SOL,
   PublicKey,
+  Transaction,
+  TransactionInstruction,
 } from "@solana/web3.js";
 import { ClockworkProvider } from "../src";
 import { assert } from "chai";
-import { BN, AnchorProvider} from "@coral-xyz/anchor";
+import { AnchorProvider } from "@coral-xyz/anchor";
+
 
 describe("Testing Thread Program", () => {
   const wallet = new NodeWallet(new Keypair());
@@ -27,15 +30,14 @@ describe("Testing Thread Program", () => {
   });
 
   it("Initialize Thread", async () => {
-    let tx = await provider.threadCreate(
+    let ix = await provider.threadCreate(
       wallet.publicKey,
       "ThreadProgramTest",
       [],
       { now: {} },
       0.1 * LAMPORTS_PER_SOL
     );
-
-    console.log(tx);
+    await sendTransaction(ix, provider);
   });
 
   it("Get Thread Address", async () => {
@@ -44,7 +46,6 @@ describe("Testing Thread Program", () => {
       "ThreadProgramTest"
     );
     threadPubkey = pubkey;
-    console.log(threadPubkey.toBase58());
   });
 
   it("Get Thread Account", async () => {
@@ -66,27 +67,27 @@ describe("Testing Thread Program", () => {
   });
 
   it("Pause Thread", async () => {
-    let tx = await provider.threadPause(wallet.publicKey, threadPubkey);
-    console.log(tx);
+    let ix = await provider.threadPause(wallet.publicKey, threadPubkey);
+    await sendTransaction(ix, provider);
   });
 
   it("Resume Thread", async () => {
-    let tx = await provider.threadResume(wallet.publicKey, threadPubkey);
-    console.log(tx);
+    let ix = await provider.threadResume(wallet.publicKey, threadPubkey);
+    await sendTransaction(ix, provider);
   });
 
   it("Reset Thread", async () => {
-    let tx = await provider.threadReset(wallet.publicKey, threadPubkey);
-    console.log(tx);
+    let ix = await provider.threadReset(wallet.publicKey, threadPubkey);
+    await sendTransaction(ix, provider);
   });
 
   it("Update Thread", async () => {
-    let tx = await provider.threadUpdate(wallet.publicKey, threadPubkey, {
+    let ix = await provider.threadUpdate(wallet.publicKey, threadPubkey, {
       name: "TestUpdateThread",
-      rateLimit: new BN(32),
+      rateLimit: 32,
       trigger: { now: {} },
     });
-    console.log(tx);
+    await sendTransaction(ix, provider);
   });
 
   //it("Thread Instruction Add", async () => {
@@ -113,21 +114,27 @@ describe("Testing Thread Program", () => {
   //});
 
   it("Get Crate Info", async () => {
-    let tx = await provider.getCrateInfo();
-    console.log(tx);
+    let ix = await provider.getCrateInfo();
+    await sendTransaction(ix, provider);
   });
 
   it("Withdraw Thread", async () => {
-    let tx = await provider.threadWithdraw(
+    let ix = await provider.threadWithdraw(
       wallet.publicKey,
       threadPubkey,
       0.01 * LAMPORTS_PER_SOL
     );
-    console.log(tx);
+    await sendTransaction(ix, provider);
   });
 
   it("Delete Thread", async () => {
-    let tx = await provider.threadDelete(wallet.publicKey, threadPubkey);
-    console.log(tx);
+    const ix = await provider.threadDelete(wallet.publicKey, threadPubkey);
+    await sendTransaction(ix, provider);
   });
 });
+
+const sendTransaction = async (ix: TransactionInstruction, provider: ClockworkProvider) => {
+  const tx = new Transaction().add(ix);
+  const signature = await provider.anchorProvider.sendAndConfirm(tx);
+  console.log(signature);
+}
