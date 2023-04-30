@@ -510,6 +510,26 @@ export type ThreadProgram = {
                 type: "i64";
               }
             ];
+          },
+          {
+            name: "Pyth";
+            fields: [
+              {
+                name: "price_feed";
+                docs: ["Price feed"];
+                type: "publicKey";
+              },
+              {
+                name: "equality";
+                docs: ["Equality"];
+                type: { defined: "Equality" }
+              },
+              {
+                name: "limit";
+                docs: ["Limit"];
+                type: "i64";
+              },
+            ];
           }
         ];
       };
@@ -1314,6 +1334,26 @@ export const IDL: ThreadProgram = {
               },
             ],
           },
+          {
+            name: "Pyth",
+            fields: [
+              {
+                name: "price_feed",
+                docs: ["Price feed"],
+                type: "publicKey",
+              },
+              {
+                name: "equality",
+                docs: ["Equality"],
+                type: { defined: "Equality" }
+              },
+              {
+                name: "limit",
+                docs: ["Limit"],
+                type: "i64",
+              },
+            ],
+          }
         ],
       },
     },
