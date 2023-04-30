@@ -1,5 +1,5 @@
 export type ThreadProgram = {
-  version: "2.0.0-beta";
+  version: "2.0.16";
   name: "thread_program";
   docs: ["Program for creating transaction threads on Solana."];
   instructions: [
@@ -500,6 +500,16 @@ export type ThreadProgram = {
                 type: "u64";
               }
             ];
+          },
+          {
+            name: "Timestamp";
+            fields: [
+              {
+                name: "unix_ts";
+                docs: ["Unix timestamp"];
+                type: "i64";
+              }
+            ];
           }
         ];
       };
@@ -720,7 +730,22 @@ export type ThreadProgram = {
           }
         ];
       };
-    }
+    },
+    {
+      name: "Equality";
+      docs: ["Equality"];
+      type: {
+        kind: "enum";
+        variants: [
+          {
+            name: "GreaterThanOrEqual";
+          },
+          {
+            name: "LessThanOrEqual";
+          }
+        ];
+      };
+    } 
   ];
   errors: [
     {
@@ -777,7 +802,7 @@ export type ThreadProgram = {
 };
 
 export const IDL: ThreadProgram = {
-  version: "2.0.0-beta",
+  version: "2.0.16",
   name: "thread_program",
   docs: ["Program for creating transaction threads on Solana."],
   instructions: [
@@ -1279,6 +1304,16 @@ export const IDL: ThreadProgram = {
               },
             ],
           },
+          {
+            name: "Timestamp",
+            fields: [
+              {
+                name: "unix_ts",
+                docs: ["Unix timestamp"],
+                type: "i64",
+              },
+            ],
+          },
         ],
       },
     },
@@ -1495,6 +1530,21 @@ export const IDL: ThreadProgram = {
                 type: "u64",
               },
             ],
+          },
+        ],
+      },
+    },
+    {
+      name: "Equality",
+      docs: ["Equality"],
+      type: {
+        kind: "enum",
+        variants: [
+          {
+            name: "GreaterThanOrEqual"
+          },
+          {
+            name: "LessThanOrEqual"
           },
         ],
       },
