@@ -747,6 +747,30 @@ export type ThreadProgram = {
                 type: "u64";
               }
             ];
+          },
+          {
+            name: "Timestamp",
+            fields: [
+              {
+                name: "started_at",
+                docs: [
+                  "The threshold moment the schedule was waiting for."
+                ],
+                type: "i64"
+              }
+            ]
+          },
+          {
+            name: "Pyth",
+            fields: [
+              {
+                name: "price",
+                docs: [
+                  "The limit price the trigger was waiting for."
+                ],
+                type: "i64"
+              }
+            ]
           }
         ];
       };
@@ -1571,6 +1595,30 @@ export const IDL: ThreadProgram = {
               },
             ],
           },
+          {
+            name: "Timestamp",
+            fields: [
+              {
+                name: "started_at",
+                docs: [
+                  "The threshold moment the schedule was waiting for."
+                ],
+                type: "i64"
+              }
+            ]
+          },
+          {
+            name: "Pyth",
+            fields: [
+              {
+                name: "price",
+                docs: [
+                  "The limit price the trigger was waiting for."
+                ],
+                type: "i64"
+              }
+            ]
+          }
         ],
       },
     },
