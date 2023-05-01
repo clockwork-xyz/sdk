@@ -84,7 +84,7 @@ class ClockworkProvider {
   }
 
   /**
-   * Create a new thread. Returns Transaction Signature.
+   * Create a new thread.
    *
    * @param authority thread authority
    * @param id thread id
@@ -116,7 +116,7 @@ class ClockworkProvider {
   }
 
   /**
-   * Delete a thread. Returns Transaction Signature.
+   * Delete a thread.
    *
    * @param authority The authority (owner) of the thread.
    * @param threadPubkey thread to delete.
@@ -138,7 +138,7 @@ class ClockworkProvider {
   }
 
   /**
-   * Pause a thread. Returns Transaction Signature.
+   * Pause a thread.
    *
    * @param authority The authority (owner) of the thread.
    * @param threadPubkey thread to pause.
@@ -157,7 +157,7 @@ class ClockworkProvider {
   }
 
   /**
-   * Resume a thread. Returns Transaction Signature.
+   * Resume a thread.
    *
    * @param authority The authority (owner) of the thread.
    * @param threadPubkey thread to resume.
@@ -176,7 +176,7 @@ class ClockworkProvider {
   }
 
   /**
-   * Reset a thread. Returns Transaction Signature.
+   * Reset a thread.
    *
    * @param authority The authority (owner) of the thread.
    * @param threadPubkey thread to reset.
@@ -192,7 +192,7 @@ class ClockworkProvider {
   }
 
   /**
-   * Withdraw from thread. Returns Transaction Signature.
+   * Withdraw from thread.
    *
    * @param authority The authority (owner) of the thread.
    * @param threadPubkey thread to withdraw from.
@@ -215,7 +215,7 @@ class ClockworkProvider {
   }
 
   /**
-   * Update a thread. Returns Transaction Signature.
+   * Update a thread.
    *
    * @param authority The authority (owner) of the thread.
    * @param threadPubkey thread to update.
@@ -236,7 +236,7 @@ class ClockworkProvider {
   }
 
   /**
-   * Add instruction to a thread. Returns Transaction Signature.
+   * Add instruction to a thread.
    *
    * @param authority The authority (owner) of the thread.
    * @param threadPubkey thread to add instruction to.
@@ -257,7 +257,7 @@ class ClockworkProvider {
   }
 
   /**
-   * Remove an instruction from a thread. Returns Transaction Signature.
+   * Remove an instruction from a thread.
    *
    * @param authority The authority (owner) of the thread.
    * @param threadPubkey thread to remove instruction from.
@@ -277,7 +277,6 @@ class ClockworkProvider {
       .instruction();
   }
 
-  // TODO: Return CrateInfo rather than tx.
   /**
    * Get Crate Info.
    *
