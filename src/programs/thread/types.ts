@@ -1,5 +1,5 @@
 export type ThreadProgram = {
-  version: "2.0.0-beta";
+  version: "2.0.16";
   name: "thread_program";
   docs: ["Program for creating transaction threads on Solana."];
   instructions: [
@@ -500,6 +500,36 @@ export type ThreadProgram = {
                 type: "u64";
               }
             ];
+          },
+          {
+            name: "Timestamp";
+            fields: [
+              {
+                name: "unix_ts";
+                docs: ["Unix timestamp"];
+                type: "i64";
+              }
+            ];
+          },
+          {
+            name: "Pyth";
+            fields: [
+              {
+                name: "price_feed";
+                docs: ["Price feed"];
+                type: "publicKey";
+              },
+              {
+                name: "equality";
+                docs: ["Equality"];
+                type: { defined: "Equality" }
+              },
+              {
+                name: "limit";
+                docs: ["Limit"];
+                type: "i64";
+              },
+            ];
           }
         ];
       };
@@ -717,10 +747,49 @@ export type ThreadProgram = {
                 type: "u64";
               }
             ];
+          },
+          {
+            name: "Timestamp",
+            fields: [
+              {
+                name: "started_at",
+                docs: [
+                  "The threshold moment the schedule was waiting for."
+                ],
+                type: "i64"
+              }
+            ]
+          },
+          {
+            name: "Pyth",
+            fields: [
+              {
+                name: "price",
+                docs: [
+                  "The limit price the trigger was waiting for."
+                ],
+                type: "i64"
+              }
+            ]
           }
         ];
       };
-    }
+    },
+    {
+      name: "Equality";
+      docs: ["Equality"];
+      type: {
+        kind: "enum";
+        variants: [
+          {
+            name: "GreaterThanOrEqual";
+          },
+          {
+            name: "LessThanOrEqual";
+          }
+        ];
+      };
+    } 
   ];
   errors: [
     {
@@ -777,7 +846,7 @@ export type ThreadProgram = {
 };
 
 export const IDL: ThreadProgram = {
-  version: "2.0.0-beta",
+  version: "2.0.16",
   name: "thread_program",
   docs: ["Program for creating transaction threads on Solana."],
   instructions: [
@@ -1279,6 +1348,36 @@ export const IDL: ThreadProgram = {
               },
             ],
           },
+          {
+            name: "Timestamp",
+            fields: [
+              {
+                name: "unix_ts",
+                docs: ["Unix timestamp"],
+                type: "i64",
+              },
+            ],
+          },
+          {
+            name: "Pyth",
+            fields: [
+              {
+                name: "price_feed",
+                docs: ["Price feed"],
+                type: "publicKey",
+              },
+              {
+                name: "equality",
+                docs: ["Equality"],
+                type: { defined: "Equality" }
+              },
+              {
+                name: "limit",
+                docs: ["Limit"],
+                type: "i64",
+              },
+            ],
+          }
         ],
       },
     },
@@ -1495,6 +1594,45 @@ export const IDL: ThreadProgram = {
                 type: "u64",
               },
             ],
+          },
+          {
+            name: "Timestamp",
+            fields: [
+              {
+                name: "started_at",
+                docs: [
+                  "The threshold moment the schedule was waiting for."
+                ],
+                type: "i64"
+              }
+            ]
+          },
+          {
+            name: "Pyth",
+            fields: [
+              {
+                name: "price",
+                docs: [
+                  "The limit price the trigger was waiting for."
+                ],
+                type: "i64"
+              }
+            ]
+          }
+        ],
+      },
+    },
+    {
+      name: "Equality",
+      docs: ["Equality"],
+      type: {
+        kind: "enum",
+        variants: [
+          {
+            name: "GreaterThanOrEqual"
+          },
+          {
+            name: "LessThanOrEqual"
           },
         ],
       },
