@@ -1,7 +1,7 @@
 {
   "name": "@clockwork-xyz/sdk",
   "author": "Clockwork",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Clockwork Typescript SDK",
   "license": "MIT",
   "homepage": "https://github.com/clockwork-xyz/sdk",
