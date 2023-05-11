@@ -33,12 +33,46 @@ type Epoch = {
   epoch: BN;
 };
 
+/// Allows a thread to be kicked off accounting to a unix timestamp.
+type Timestamp = {
+  unix_ts: BN
+};
+
+/// Allows a thread to be kicked off accounting to a Pyth price feed movement.
+type Pyth = {
+  /// The address of the price feed to monitor.
+  price_feed: PublicKey;
+  /// The equality operator (gte or lte) used to compare prices. 
+  equality: Equality;
+  /// The limit price to compare the Pyth feed to. 
+  limit: BN;
+}
+
+type GreaterThanOrEqual = {};
+type LessThanOrEqual = {};
+type Equality = GreaterThanOrEqual | LessThanOrEqual;
+
 type Trigger = Account | Cron | Now | Slot | Epoch;
 type TriggerInput =
   | { account: Account }
   | { cron: Cron }
   | { now: Now }
   | { slot: Slot }
-  | { epoch: Epoch };
+  | { epoch: Epoch }
+  | { timestamp: Timestamp }
+  | { pyth: Pyth };
 
-export { Trigger, TriggerInput, Account, Cron, Now, Slot, Epoch };
+export { 
+  Trigger,
+  TriggerInput,
+  Account,
+  Cron,
+  Now,
+  Slot,
+  Epoch,
+  Timestamp,
+  Pyth,
+  GreaterThanOrEqual,
+  LessThanOrEqual,
+  Equality
+};
