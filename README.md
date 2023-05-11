@@ -1,7 +1,3 @@
-<p align="center">
-  <img src=https://imgur.com/IpOp9W3.jpg>
-</p>
-
 <h1 align="center">Clockwork SDK</h1>
 <p align="center"><strong>Clockwork Typescript SDK</strong></p>
 
