@@ -12,6 +12,12 @@ import {
   Now,
   Epoch,
   Slot,
+  Timestamp,
+  Pyth,
+  Equality,
+  EqualityInput,
+  GreaterThanOrEqual,
+  LessThanOrEqual,
 } from "./Trigger";
 import { ThreadSettings, ThreadSettingsInput } from "./ThreadSettings";
 import CrateInfo from "./CrateInfo";
@@ -29,6 +35,12 @@ export {
   Now,
   Epoch,
   Slot,
+  Timestamp,
+  Pyth,
+  Equality,
+  EqualityInput,
+  GreaterThanOrEqual,
+  LessThanOrEqual,
   ThreadSettings,
   ThreadSettingsInput,
   CrateInfo,

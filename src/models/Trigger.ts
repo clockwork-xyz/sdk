@@ -43,7 +43,7 @@ type Pyth = {
   /// The address of the price feed to monitor.
   price_feed: PublicKey;
   /// The equality operator (gte or lte) used to compare prices. 
-  equality: Equality;
+  equality: EqualityInput;
   /// The limit price to compare the Pyth feed to. 
   limit: BN;
 }
@@ -51,6 +51,9 @@ type Pyth = {
 type GreaterThanOrEqual = {};
 type LessThanOrEqual = {};
 type Equality = GreaterThanOrEqual | LessThanOrEqual;
+type EqualityInput = 
+  | { greaterThanOrEqual: GreaterThanOrEqual }
+  | { lessThanOrEqual: LessThanOrEqual };
 
 type Trigger = Account | Cron | Now | Slot | Epoch;
 type TriggerInput =
@@ -74,5 +77,6 @@ export {
   Pyth,
   GreaterThanOrEqual,
   LessThanOrEqual,
-  Equality
+  Equality,
+  EqualityInput,
 };
