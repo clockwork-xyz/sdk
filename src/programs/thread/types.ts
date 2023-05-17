@@ -516,17 +516,17 @@ export type ThreadProgram = {
             fields: [
               {
                 name: "price_feed";
-                docs: ["Price feed"];
+                docs: ["The address of the price feed to monitor."];
                 type: "publicKey";
               },
               {
                 name: "equality";
-                docs: ["Equality"];
+                docs: ["The equality operator (gte or lte) used to compare prices."];
                 type: { defined: "Equality" }
               },
               {
                 name: "limit";
-                docs: ["Limit"];
+                docs: ["The limit price to compare the Pyth feed to."];
                 type: "i64";
               },
             ];
@@ -1363,17 +1363,17 @@ export const IDL: ThreadProgram = {
             fields: [
               {
                 name: "price_feed",
-                docs: ["Price feed"],
+                docs: ["The address of the price feed to monitor."],
                 type: "publicKey",
               },
               {
                 name: "equality",
-                docs: ["Equality"],
+                docs: ["The equality operator (gte or lte) used to compare prices."],
                 type: { defined: "Equality" }
               },
               {
                 name: "limit",
-                docs: ["Limit"],
+                docs: ["The limit price to compare the Pyth feed to."],
                 type: "i64",
               },
             ],

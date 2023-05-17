@@ -55,7 +55,7 @@ type EqualityInput =
   | { greaterThanOrEqual: GreaterThanOrEqual }
   | { lessThanOrEqual: LessThanOrEqual };
 
-type Trigger = Account | Cron | Now | Slot | Epoch;
+type Trigger = Account | Cron | Now | Slot | Epoch | Timestamp | Pyth;
 type TriggerInput =
   | { account: Account }
   | { cron: Cron }

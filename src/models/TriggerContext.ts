@@ -18,11 +18,21 @@ type EpochTriggerContext = {
   startedAt: BN;
 };
 
+type TimestampTriggerContext = {
+  startedAt: BN;
+};
+
+type PythTriggerContext = {
+  price: BN;
+};
+
 type TriggerContext =
   | AccountTriggerContext
   | CronTriggerContext
   | NowTriggerContext
   | SlotTriggerContext
-  | EpochTriggerContext;
+  | EpochTriggerContext
+  | TimestampTriggerContext
+  | PythTriggerContext;
 
 export default TriggerContext;

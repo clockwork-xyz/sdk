@@ -110,6 +110,8 @@ class ClockworkProvider {
       )
       .accounts({
         authority: authority,
+        payer: authority,
+        systemProgram: anchor.web3.SystemProgram.programId,
         thread: threadPubkey,
       })
       .instruction();
