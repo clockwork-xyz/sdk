@@ -505,7 +505,7 @@
             "name": "Timestamp",
             "fields": [
               {
-                "name": "unix_ts",
+                "name": "unixTs",
                 "docs": ["Unix timestamp"],
                 "type": "i64"
               }
@@ -515,7 +515,7 @@
             "name": "Pyth",
             "fields": [
               {
-                "name": "price_feed",
+                "name": "priceFeed",
                 "docs": ["The address of the price feed to monitor."],
                 "type": "publicKey"
               },

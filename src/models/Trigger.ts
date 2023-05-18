@@ -35,13 +35,13 @@ type Epoch = {
 
 /// Allows a thread to be kicked off accounting to a unix timestamp.
 type Timestamp = {
-  unix_ts: BN
+  unixTs: BN
 };
 
 /// Allows a thread to be kicked off accounting to a Pyth price feed movement.
 type Pyth = {
   /// The address of the price feed to monitor.
-  price_feed: PublicKey;
+  priceFeed: PublicKey;
   /// The equality operator (gte or lte) used to compare prices. 
   equality: EqualityInput;
   /// The limit price to compare the Pyth feed to. 

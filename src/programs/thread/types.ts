@@ -505,7 +505,7 @@ export type ThreadProgram = {
             name: "Timestamp";
             fields: [
               {
-                name: "unix_ts";
+                name: "unixTs";
                 docs: ["Unix timestamp"];
                 type: "i64";
               }
@@ -515,7 +515,7 @@ export type ThreadProgram = {
             name: "Pyth";
             fields: [
               {
-                name: "price_feed";
+                name: "priceFeed";
                 docs: ["The address of the price feed to monitor."];
                 type: "publicKey";
               },
@@ -1352,7 +1352,7 @@ export const IDL: ThreadProgram = {
             name: "Timestamp",
             fields: [
               {
-                name: "unix_ts",
+                name: "unixTs",
                 docs: ["Unix timestamp"],
                 type: "i64",
               },
@@ -1362,7 +1362,7 @@ export const IDL: ThreadProgram = {
             name: "Pyth",
             fields: [
               {
-                name: "price_feed",
+                name: "priceFeed",
                 docs: ["The address of the price feed to monitor."],
                 type: "publicKey",
               },
