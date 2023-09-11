@@ -1,5 +1,5 @@
 {
-  "name": "@miclockwork-xyz/sdk",
+  "name": "@miclockwork/sdk",
   "author": "Maius",
   "version": "0.1.0",
   "description": "A fork for Clockwork Typescript SDK",
