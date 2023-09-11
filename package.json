@@ -1,7 +1,7 @@
 {
   "name": "@miclockwork/sdk",
   "author": "Maius",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A fork for Clockwork Typescript SDK",
   "license": "MIT",
   "homepage": "https://github.com/quanghuynguyen1902/sdk",
