@@ -1,16 +1,16 @@
 {
-  "name": "@clockwork-xyz/sdk",
-  "author": "Clockwork",
-  "version": "0.3.4",
-  "description": "Clockwork Typescript SDK",
+  "name": "@miclockwork-xyz/sdk",
+  "author": "Maius",
+  "version": "0.1.0",
+  "description": "A fork for Clockwork Typescript SDK",
   "license": "MIT",
-  "homepage": "https://github.com/clockwork-xyz/sdk",
+  "homepage": "https://github.com/quanghuynguyen1902/sdk",
   "bugs": {
-    "url": "https://github.com/clockwork-xyz/sdk/issues"
+    "url": "https://github.com/quanghuynguyen1902/sdk/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/clockwork-xyz/sdk.git"
+    "url": "https://github.com/quanghuynguyen1902/sdk.git"
   },
   "publishConfig": {
     "access": "public"
@@ -18,7 +18,8 @@
   "keywords": [
     "Solana",
     "Clockwork",
-    "SDK"
+    "SDK",
+    "Maius"
   ],
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
